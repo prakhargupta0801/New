@@ -1,0 +1,241 @@
+@font-face {
+    src: url(./fonts/Gilroy-Black.ttf);
+    font-family: 'GilroyBlack';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Bold.ttf);
+    font-family: 'GilroyBold';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Extrabold.ttf);
+    font-family: 'GilroyExtrabold';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Heavy.ttf);
+    font-family: 'GilroyHeavy';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Light.ttf);
+    font-family: 'GilroyLight';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Medium.ttf);
+    font-family: 'GilroyMedium';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Regular.ttf);
+    font-family: 'GilroyRegular';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Semibold.ttf);
+    font-family: 'GilroySemibold';
+}
+
+@font-face {
+    src: url(./fonts/Gilroy-Thin.ttf);
+    font-family: 'GilroyThin';
+}
+
+@font-face {
+    src: url(./fonts/Shaloems.ttf);
+    font-family: 'Shaloems';
+}
+
+@font-face {
+    font-family: 'Sha';
+    src: url('fonts/SHALOEMS.otf');
+}
+
+@font-face {
+    font-family: 'Mont';
+    src: url('fonts/MONTSERRATALTERNATES-EXTRALIGHT.otf');
+}
+
+button,
+input {
+    outline: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "GilroyRegular";
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+:root {
+  --framer-font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+}
+
+body {
+  font-family: var(--framer-font-family);
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    width: 6px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(153, 153, 153);
+}
+
+
+/* new code */
+
+.prtf-main {
+    background-color: #ececec;
+    width: 100%;
+    height: 500vh;
+    padding-top: 10px;
+}
+
+.prtf-header {
+    width: 90%;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #000000;
+    padding: 6px 10px;
+}
+
+.prtf-header h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.prtf-header #links {
+    display: flex;
+    gap: 30px;
+}
+
+.prtf-header #links a {
+    color: #000000;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.nav-item-icon {
+    position: fixed;
+    top: 20px;
+    right: -50px;
+    width: 46px;
+    height: 46px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, right 0.6s ease;
+}
+
+.nav-item-icon svg {
+    stroke: #000;
+    transition: stroke 0.3s ease;
+}
+
+.nav-item-icon.show {
+    opacity: 1;
+    pointer-events: auto;
+    right: 50px;
+}
+
+.nav-item-icon:hover {
+    background-color: #000;
+    border-radius: 50%;
+    transform: scale(1.05);
+}
+
+.nav-item-icon:hover svg {
+    stroke: #fff !important;
+}
+
+.nav-item-icon svg {
+    stroke: #000;
+    transition: 0.2s;
+}
+
+.nav-item-icon svg g:first-child {
+    opacity: 1;
+    transition: opacity 0s 0.2s;
+}
+
+.nav-item-icon svg g:first-child line {
+    transition: transform 0.2s 0.2s;
+    transform: translateY(0px);
+}
+
+.nav-item-icon svg g:last-child {
+    opacity: 0;
+    transition: opacity 0s 0.2s;
+}
+
+.nav-item-icon svg g:last-child line {
+    transition: transform 0.2s;
+    transform: rotate(0deg);
+    transform-origin: center;
+}
+
+.nav-item-icon.active svg {
+    stroke: #000000;
+}
+
+.nav-item-icon.active svg g:first-child {
+    opacity: 0;
+}
+
+.nav-item-icon.active svg g:first-child line {
+    transition: transform 0.2s;
+}
+
+.nav-item-icon.active svg g:first-child line:first-child {
+    transform: translateY(6px);
+}
+
+.nav-item-icon.active svg g:first-child line:last-child {
+    transform: translateY(-6px);
+}
+
+.nav-item-icon.active svg g:last-child {
+    opacity: 1;
+}
+
+.nav-item-icon.active svg g:last-child line {
+    transition: transform 0.2s 0.2s;
+}
+
+.nav-item-icon.active svg g:last-child line:first-child {
+    transform: rotate(45deg);
+}
+
+.nav-item-icon.active svg g:last-child line:last-child {
+    transform: rotate(-45deg);
+}
