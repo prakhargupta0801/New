@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>GSAP Rotation Tube</title>
+  <title>GSAP Rotation roateTube</title>
   <style>
     @font-face {
       font-family: 'Bandeins-Strange';
@@ -17,29 +16,35 @@
       --fontSize: 4;
     }
 
-    html,
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
       margin: 0;
       background: black;
       color: white;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      height: 1000vh; /* long scroll */
     }
 
     .roatestage {
-      width: 100%;
-      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
+      height: 100%;
       visibility: hidden;
-      position: relative;
-      overflow: hidden;
     }
 
     .roatetube {
+      position: fixed;
+      top: 50vh;
+      left: 50vw;
       perspective: 100vw;
     }
 
     .roatetube__inner {
+      position: relative;
       transform-style: preserve-3d;
     }
 
@@ -57,78 +62,72 @@
       line-height: 1;
       transform-style: preserve-3d;
     }
-
-    .next {
-      background: #222;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-    }
   </style>
 </head>
-
 <body>
-  <section class="roatestage">
+  <div class="roatestage">
     <div class="roatetube">
       <div class="roatetube__inner">
         <h1 class="rotateline">Rotation</h1>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="next">
-    <p>Next section 🚀</p>
-  </section>
-
+  <!-- ✅ GSAP + ScrollTrigger CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <script>
     console.clear();
-    gsap.registerPlugin(ScrollTrigger);
 
-    const roatestage = document.querySelector('.roatestage');
-    const roatetubeInner = document.querySelector(".roatetube__inner");
+    const select = e => document.querySelector(e);
+    const roatestage = select('.roatestage');
+    const roatetubeInner = select(".roatetube__inner");
     const clone = document.getElementsByClassName("rotateline");
     const numLines = 10;
     const fontSize = gsap.getProperty(':root', '--fontSize');
-    const angle = 360 / numLines;
+    const angle = 360/numLines;
     let radius = 0;
     let origin = 0;
 
     function set3D() {
       let width = window.innerWidth;
-      let fontSizePx = (width / 100) * fontSize;
-      radius = (fontSizePx / 2) / Math.sin((180 / numLines) * (Math.PI / 180));
+      let fontSizePx = (width/100)*fontSize;
+      radius = (fontSizePx/2)/Math.sin((180/numLines)*(Math.PI/180));
       origin = `50% 50% -${radius}px`;
     }
 
     function clodeNode() {
-      for (var i = 0; i < (numLines - 1); i++) {
+      for (var i = 0; i < (numLines-1); i++) {
         let newClone = clone[0].cloneNode(true);
+        let lineClass = "rotateline--"+(i+2);
+        newClone.classList.add(lineClass);
         roatetubeInner.appendChild(newClone);
       }
+      clone[0].classList.add("rotateline--1");
     }
 
     function positionTxt() {
       gsap.set('.rotateline', {
-        rotationX: (index) => -angle * index,
+        rotationX: function(index) {
+          return -angle*index;
+        },
         z: radius,
         transformOrigin: origin
       });
     }
 
     function setProps(targets) {
-      targets.forEach(function (target) {
+      targets.forEach(function(target) {
+        let paramSet = gsap.quickSetter(target, "css");
         let degrees = gsap.getProperty(target, "rotateX");
-        let radians = degrees * (Math.PI / 180);
+        let radians = degrees * (Math.PI/180);
         let conversion = Math.abs(Math.cos(radians) / 2 + 0.5);
-        let fontW = 200 + 700 * conversion;
-        let fontS = `${100 + 700 * conversion}%`;
+        let fontW = 200 + 700*conversion;
+        let fontS = `${100 + 700*conversion}%`;
 
-        gsap.set(target, {
-          opacity: conversion + 0.1,
+        paramSet({
+          opacity: conversion+0.1,
           fontWeight: fontW,
           fontStretch: fontS
         });
@@ -136,26 +135,28 @@
     }
 
     function scrollRotate() {
-      let tl = gsap.timeline({
+      gsap.to('.rotateline', {
         scrollTrigger: {
           trigger: '.roatestage',
           scrub: 1,
-          pin: true,
-          pinSpacing: true,   // ✅ ensures next section is pushed down
-          anticipatePin: 1,   // ✅ smoother back scroll
-          start: "top top",
-          end: "+=2000"       // scroll distance
+          start: "top top"
         },
-        onUpdate: () => {
-          setProps(gsap.utils.toArray(".rotateline"));
+        rotateX: "+=1080",
+        onUpdate: function() {
+          setProps(this.targets());
         }
       });
 
-      // Rotate all lines
-      tl.to('.rotateline', { rotateX: "+=1440", ease: "none" });
+      gsap.to('.roatetube', {
+        scrollTrigger: {
+          trigger: '.roatestage',
+          scrub: 1,
+          start: "top top"
+        },
+        perspective: '1vw',
+        ease: 'expo.out'
+      });
 
-      // Also animate perspective of the tube
-      tl.to('.roatetube', { perspective: '1vw', ease: "expo.out" }, 0);
     }
 
     function init() {
@@ -168,11 +169,12 @@
       positionTxt();
       setProps(gsap.utils.toArray(".rotateline"));
       scrollRotate();
-      gsap.to(roatestage, { autoAlpha: 1, duration: 2, delay: 1 });
+      gsap.to(roatestage, { autoAlpha: 1, duration: 2, delay: 2 });
     }
 
-    window.onload = init;
+    window.onload = () => {
+      init();
+    };
   </script>
 </body>
-
 </html>
