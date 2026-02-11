@@ -604,7 +604,7 @@ nav #links a:last-child {
     /* color: #000000; */
     position: relative;
     z-index: 1;
-        color: #40bbe0;
+    color: #40bbe0;
 }
 
 .experience {
@@ -638,7 +638,7 @@ nav #links a:last-child {
 
 }
 
-.heading-exp div{
+.heading-exp div {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -1590,8 +1590,8 @@ nav #links a:last-child {
     color: #505050 !important;
     margin-top: 0px !important;
     display: inline-block !important;
-        font-family: "GilroyRegular" !important;
-        display: -webkit-box;
+    font-family: "GilroyRegular" !important;
+    display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
